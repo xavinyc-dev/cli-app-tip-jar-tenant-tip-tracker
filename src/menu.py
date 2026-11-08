@@ -167,7 +167,7 @@ def add_tip(tips_jar, tip_id):
             tip_type=tip_type,
             desc=desc,
             date=date,
-        )
+        )  # keyword arguments to ensure they are assigned correctly
 
         tips_jar.append(tip)
         tip_id += 1
