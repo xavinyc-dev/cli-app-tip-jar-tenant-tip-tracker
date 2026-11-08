@@ -1,6 +1,6 @@
 from datetime import datetime
 import pytest
-from src.main import (
+from src.data import (
     validate_amnt,
     total_tips_math,
     return_amount,
@@ -11,6 +11,13 @@ from src.main import (
     search_year,
     validate_date,
     validate_year,
+    return_tip_from_id,
+    remove_tip,
+    build_tip,
+    clean_description,
+    clean_type,
+    clean_tenant,
+    clean_apartment,
 )
 
 tips_jar = [
@@ -260,3 +267,88 @@ def test_validate_year():
     assert validate_year("2023") is True
     assert validate_year("-2026") is False
     assert validate_year("") is False
+
+
+def test_return_tip_from_id():
+    """Returns dictionary of tip from tips_jar with inputted id"""
+    assert return_tip_from_id(2, tips_jar) == {
+        "ID": 2,
+        "Tenant": "Elisa",
+        "Apartment": "1203",
+        "Amount": 55.25,
+        "Tip Type": "Cash",
+        "Description": "",
+        "Date": "12-26-2025",
+    }
+    assert return_tip_from_id(99, tips_jar) is None
+
+
+def test_build_tip():
+    assert build_tip(
+        tip_id=1,
+        tenant="xavi",
+        apt="1202W",
+        amnt=25.00,
+        tip_type="zelle",
+        desc="",
+        date="12-25-2025",
+    ) == {
+        "ID": 1,
+        "Tenant": "Xavi",
+        "Apartment": "1202W",
+        "Amount": 25.00,
+        "Tip Type": "Zelle",
+        "Description": "",
+        "Date": "12-25-2025",
+    }
+
+
+# Only add tests above this to not accidentally delete anything until I learn about shallow and deep
+def test_remove_tip():
+    """Test remove tip from tips_jar list"""
+    copy_tips_jar = list(tips_jar)
+    assert remove_tip(2, copy_tips_jar) == [
+        {
+            "ID": 1,
+            "Tenant": "Xavi",
+            "Apartment": "1202",
+            "Amount": 25.00,
+            "Tip Type": "Cash",
+            "Description": "",
+            "Date": "12-25-2025",
+        },
+        {
+            "ID": 3,
+            "Tenant": "Michael",
+            "Apartment": "1204",
+            "Amount": 33.25,
+            "Tip Type": "Cash",
+            "Description": "",
+            "Date": "01-26-2026",
+        },
+    ]
+
+
+def test_clean_apartment():
+    """Strips white space and capitalizes all characters"""
+    assert clean_apartment("  1202wa   ") == "1202WA"
+    assert clean_apartment(" 5d ") == "5D"
+
+
+def test_clean_tenant():
+    """Strips white space and capitalizes the first character of each word"""
+    assert clean_tenant("   xaVI  ") == "Xavi"
+    assert clean_tenant("   xaVier rodriGuez  ") == "Xavier Rodriguez"
+
+
+def test_clean_type():
+    """Strips white space and capitalizes the first character of each word"""
+    assert clean_type("  caSh aPp  ") == "Cash App"
+
+
+def test_clean_description():
+    """Strips the white space"""
+    assert (
+        clean_description("  Cleaning apartment for Ana paid Cash.   ")
+        == "Cleaning apartment for Ana paid Cash."
+    )
