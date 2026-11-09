@@ -3,14 +3,10 @@
 1. Share one aspect of building this project you found challenging and how you
    overcame it.
 
-- Validating the date was really challenging for me as I tried to catch every input in order to send back an error message, a fellow Amr brought to my attention that there may be libraries that can help which brought me to the datetime method. In this process I also learned about try and except to catch the value errors.
-- Edge cases
+  One of the main aspects about building this project was honestly the edge cases. One in particular was validating the date. It was really challenging for me as I tried to catch every input in order to send back an error message in order for user inputs to only be a real date. It was turning into a long block of code, which was making me lose my mind trying to catch everything, but a fellow named Amr brought to my attention that there may be libraries that can help, which brought me to the datetime library. It's a library that lets me assign the format of the date in a string and catches all edge cases I was worried about. One example is an impossible date like 14-35-2026, which the datetime library helped me catch. In this process I also learned about try and except to catch the value errors. This opened my eyes a bit to collaboration, as speaking to someone about the project helped me find solutions to problems I was having. 
 
 2. Share one technical concept that you gained a deeper understanding of
    through building this project. Explain that concept in simple terms and
    explain how it is used in your project.
 
-- Edge case
-- try except
-- for and while loops
-- modularity 
+The main technical terms I gained a deeper understanding of would be separation of concerns and modularity. I started this project by just writing without stopping, and that quickly turned into a big messy block of code with functions that would do 5 different things at once. When I looked back at it, I couldn't get a grasp of how to split things up. I had to sit here and really think about how each function should ultimately do one thing and one thing only. If I explained what a function did using the word "and," then I'd have to split it up. Doing it that way made it seem like puzzle pieces being put together to do one thing. I started to view modules the same way, as well as an easier way to organize the code. This helped programming readability immensely, as well as helped for when I started doing tests. Since separation of concerns helped separate the functions, I was able to make pure functions that worked with the data and could be tested using pytest. The workflow was quicker from that point on. All functions used to communicate with the user, like printing and taking input, were put in menu.py. All data-related functions that returned a value for the program to use were in data.py, and the main.py file has the main running function. Main uses the functions from menu, and menu uses the functions from data in order for the program to run all together.
